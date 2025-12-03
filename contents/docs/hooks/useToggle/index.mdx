@@ -1,0 +1,52 @@
+---
+title: useToggle
+description: A simple boolean state hook for toggling values.
+---
+
+# useToggle
+
+A hook that provides an easy way to toggle a boolean state value. Useful for managing UI states like modals, dropdowns, and visibility toggles.
+
+## Usage
+
+```typescript
+import { useToggle } from "notehooks";
+
+const MyComponent = () => {
+  const [isOpen, toggle] = useToggle(false);
+
+  return (
+    <div>
+      <button onClick={toggle}>{isOpen ? "Hide" : "Show"}</button>
+      {isOpen && <p>This is now visible!</p>}
+    </div>
+  );
+};
+```
+
+## API
+
+### `useToggle(initialValue?)`
+
+| Parameter      | Type      | Default | Description                      |
+| -------------- | --------- | ------- | -------------------------------- |
+| `initialValue` | `boolean` | `false` | The initial boolean state value. |
+
+### Returns
+
+| Name     | Type         | Description                   |
+| -------- | ------------ | ----------------------------- |
+| `state`  | `boolean`    | The current toggle state.     |
+| `toggle` | `() => void` | Function to toggle the state. |
+
+## Example with setValue
+
+```typescript
+const [isOpen, toggle, setValue] = useToggle(false);
+
+// Toggle
+toggle(); // isOpen becomes true
+
+// Set to specific value
+setValue(false); // isOpen becomes false
+```

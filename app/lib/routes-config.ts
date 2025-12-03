@@ -20,13 +20,15 @@ export const ROUTES: EachRoute[] = [
     title: "Hooks",
     href: "/hooks",
     items: [
-      { title: "useToggle", href: "/use-toggle" },
-      { title: "useFetch", href: "/use-fetch" },
+      { title: "useToggle", href: "/useToggle" },
+      { title: "useAsync", href: "/useAsync" },
+      { title: "useClickOutside", href: "/useClickOutside" },
+      { title: "useClipboard", href: "/useClipboard" },
     ],
   },
 ];
 
-// Helper to flatten routes for generating static params
+
 type Page = { title: string; href: string };
 function getRecurrsiveAllLinks(node: EachRoute) {
   const ans: Page[] = [];

@@ -1,0 +1,63 @@
+---
+title: useClickOutside
+description: Detect clicks outside of a component reference.
+---
+
+# useClickOutside
+
+The `useClickOutside` hook detects when a click occurs outside of a specified element. Perfect for closing modals, dropdowns, or any component that should close when clicking outside.
+
+## Usage
+
+```typescript
+import { useRef } from "react";
+import { useClickOutside } from "notehooks";
+
+const MyComponent = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(true);
+
+  useClickOutside(ref, () => {
+    setIsOpen(false);
+  });
+
+  return (
+    <div ref={ref}>
+      {isOpen && (
+        <div className="dropdown">
+          <p>Click outside to close</p>
+        </div>
+      )}
+    </div>
+  );
+};
+```
+
+## API
+
+### `useClickOutside(ref, callback, events?)`
+
+| Parameter  | Type                           | Description                                                    |
+| ---------- | ------------------------------ | -------------------------------------------------------------- |
+| `ref`      | `React.RefObject<HTMLElement>` | Reference to the element to monitor.                           |
+| `callback` | `() => void`                   | Function called when clicking outside.                         |
+| `events`   | `string[]`                     | Events to listen for (default: `['mousedown', 'touchstart']`). |
+
+## Examples
+
+### Modal with click-outside close
+
+```typescript
+const Modal = ({ isOpen, onClose }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  useClickOutside(ref, onClose);
+
+  return isOpen ? (
+    <div className="modal-overlay">
+      <div ref={ref} className="modal">
+        <p>Modal content</p>
+      </div>
+    </div>
+  ) : null;
+};
+```

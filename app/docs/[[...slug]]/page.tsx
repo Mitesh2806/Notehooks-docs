@@ -1,7 +1,6 @@
 import { page_routes } from "@/app/lib/routes-config";
 import { notFound } from "next/navigation";
 import { getCompiledDocsForSlug, getDocFrontmatter } from "@/app/lib/markdown-config";
-import { TableOfContents } from "@/components/table-of-contents";
 
 type PageProps = {
   params: Promise<{ slug: string[] }>;
@@ -17,25 +16,17 @@ export default async function DocsPage(props: PageProps) {
   if (!res) notFound();
 
   return (
-    <div className="flex gap-8 px-8 py-10">
-      <article className="flex-1 max-w-3xl mx-auto">
-        <div className="typography">
-          <h1 className="text-3xl font-bold mb-2">
-            {res.frontmatter.title as string}
-          </h1>
-          <p className="text-muted-foreground mb-8">
-            {res.frontmatter.description as string}
-          </p>
-          <div>{res.content}</div>
-        </div>
-      </article>
-      
-      <aside className="hidden xl:block w-64 shrink-0">
-        <div className="sticky top-24">
-          <TableOfContents />
-        </div>
-      </aside>
-    </div>
+    <article className="prose prose-slate dark:prose-invert max-w-none">
+      <h1 className="text-4xl font-bold mb-4 mt-0">
+        {res.frontmatter.title as string}
+      </h1>
+      <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 mt-0">
+        {res.frontmatter.description as string}
+      </p>
+      <div className="prose prose-slate dark:prose-invert max-w-none prose-h2:mt-8 prose-h3:mt-6 prose-h4:mt-6">
+        {res.content}
+      </div>
+    </article>
   );
 }
 
@@ -46,7 +37,7 @@ export async function generateMetadata(props: PageProps) {
   const res = await getDocFrontmatter(pathName);
   if (!res) return {};
   return {
-    title: `${res.title} - My Docs`,
+    title: `${res.title} - Notehooks`,
     description: res.description,
   };
 }
