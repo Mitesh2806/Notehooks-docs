@@ -1,30 +1,103 @@
 ---
 title: Introduction
-description: Welcome to notehooks documentation.
+description: Welcome to noteHooks - a collection of lightweight React hooks for modern applications.
 ---
 
-# Introduction
+Welcome to **noteHooks Documentation**! This is the comprehensive guide for notehooks, a powerful collection of lightweight and efficient React hooks designed to simplify common patterns in modern React applications.
 
-Welcome to **notehooks** - a collection of useful React hooks to simplify your development workflow.
+## About noteHooks
 
-## What is notehooks?
+noteHooks is proudly **open-source**! 🎉 We believe in creating accessible, performant, and easy-to-use React hooks that help developers build better applications faster.
 
-notehooks provides a set of carefully crafted, production-ready hooks that solve common problems in React applications. Whether you're building a simple component or a complex application, these hooks will help you write cleaner, more maintainable code.
+<Note title="Get Started">
+  Ready to enhance your React app? Install notehooks with `npm install
+  notehooks` and explore our [GitHub
+  repository](https://github.com/Gourav2609/notehooks) for the latest updates
+  and contributions!
+</Note>
 
-## Key Features
+## Why noteHooks?
 
-- **Easy to use** - Simple and intuitive API
-- **Type-safe** - Full TypeScript support
-- **Well-tested** - Thoroughly tested for reliability
-- **Lightweight** - Minimal bundle size impact
-- **Well-documented** - Clear examples and API documentation
+**noteHooks** is more than just a hook library. It's a **carefully curated collection** designed for modern React development. Key benefits include:
 
-## Getting Started
+- **Markdown & MDX Support:** Easily write documentation in Markdown, with the option to include interactive components via MDX.
+- **Lightweight & Performant:** Minimal bundle impact with maximum functionality.
+- **TypeScript Support:** Full TypeScript support with comprehensive type definitions.
+- **Zero Dependencies:** Pure React hooks with no external dependencies.
+- **Tree Shakable:** Import only what you need for optimal bundle size.
 
-To get started with notehooks:
+### Available Hooks
 
-1. **Install** the package from npm
-2. **Import** the hooks you need
-3. **Use** them in your components
+| **Hook**        | **Description**                                    |
+| --------------- | -------------------------------------------------- |
+| useClickOutside | Detect clicks outside specific elements.           |
+| useCountdown    | Timer management with start/pause/reset controls.  |
+| useHotKey       | Handle keyboard shortcuts and hotkey combinations. |
+| isMobile        | Device detection for responsive behavior.          |
+| usePing         | Monitor network connectivity and measure latency.  |
 
-Each hook is designed to be self-contained and can be used independently. Check out the installation guide to get started!
+## Installation & Usage
+
+noteHooks is designed for modern React applications and supports the latest React features:
+
+- **React 16.8+** - Hooks support required.
+- **TypeScript** - Full type safety and IntelliSense support.
+- **ES Modules** - Modern module system with tree shaking.
+- **SSR Compatible** - Works with Next.js, Gatsby, and other SSR frameworks.
+
+### Quick Start
+
+Install notehooks in your React project:
+
+```bash
+npm install notehooks
+# or
+yarn add notehooks
+# or
+pnpm add notehooks
+```
+
+Start using hooks immediately:
+
+```tsx
+import { useCountdown, usePing, useClickOutside, isMobile } from "notehooks";
+
+function MyComponent() {
+  const { timeLeft, start, pause, isActive } = useCountdown(60);
+  const { latency, isLive } = usePing("https://api.example.com");
+  const modalRef = useRef(null);
+  const mobile = isMobile();
+
+  useClickOutside(modalRef, () => {
+    console.log("Clicked outside modal");
+  });
+
+  return (
+    <div>
+      <div>
+        <h3>Timer: {timeLeft}s</h3>
+        <button onClick={isActive ? pause : start}>
+          {isActive ? "Pause" : "Start"}
+        </button>
+      </div>
+      <div>
+        <h3>Network Status</h3>
+        <p>API: {isLive ? `Online (${latency}ms)` : "Offline"}</p>
+      </div>
+      <div ref={modalRef} className={mobile ? "mobile-view" : "desktop-view"}>
+        <p>Device: {mobile ? "Mobile" : "Desktop"}</p>
+      </div>
+    </div>
+  );
+}
+```
+
+## Get the Package
+
+Get started with notehooks from npm:
+
+| Package Manager | Command                   |
+| --------------- | ------------------------- |
+| npm             | `npm install notehooks` |
+| yarn            | `yarn add notehooks`    |
+| pnpm            | `pnpm add notehooks`    |
