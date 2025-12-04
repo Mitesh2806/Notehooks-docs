@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${architectsDaughter.variable} font-sans antialiased tracking-wide`}
+        className={`${architectsDaughter.variable} font-sans antialiased tracking-wide noise-overlay-paper`}
       >
         <ThemeProvider
           attribute="class"

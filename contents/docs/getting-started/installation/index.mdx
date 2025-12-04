@@ -1,9 +1,9 @@
 ---
 title: Installation
-description: How to install and use light-hooks in your React project.
+description: How to install and use notehooks in your React project.
 ---
 
-Installing light-hooks is simple and straightforward. The package is available on npm and can be installed using any package manager. Light Hooks works with [React](https://reactjs.org/) version 16.8 or higher (hooks support required).
+Installing notehooks is simple and straightforward. The package is available on npm and can be installed using any package manager. Light Hooks works with [React](https://reactjs.org/) version 16.8 or higher (hooks support required).
 
 ## Package Installation
 
@@ -11,20 +11,20 @@ Light Hooks can be installed directly from npm using your preferred package mana
 
 <Stepper>
   <StepperItem title="Step 1: Install the Package">
-    Install light-hooks using your preferred package manager:
+    Install notehooks using your preferred package manager:
 
     ```bash
-    npm install light-hooks
+    npm install notehooks
     ```
     
     Or with yarn:
     ```bash
-    yarn add light-hooks
+    yarn add notehooks
     ```
     
     Or with pnpm:
     ```bash
-    pnpm add light-hooks
+    pnpm add notehooks
     ```
   </StepperItem>
 
@@ -32,7 +32,7 @@ Light Hooks can be installed directly from npm using your preferred package mana
     Start using hooks in your React components:
 
     ```tsx
-    import { useLocalStorage, useToggle, useCounter } from 'light-hooks';
+    import { useLocalStorage, useToggle, useCounter } from 'notehooks';
     
     function MyComponent() {
       const [count, { increment, decrement, reset }] = useCounter(0);
@@ -67,7 +67,7 @@ Light Hooks can be installed directly from npm using your preferred package mana
 
 
     ```tsx
-    import { useLocalStorage } from 'light-hooks';
+    import { useLocalStorage } from 'notehooks';
     
     // Type is automatically inferred as [string, (value: string) => void]
     const [name, setName] = useLocalStorage('username', 'Anonymous');
@@ -75,11 +75,11 @@ Light Hooks can be installed directly from npm using your preferred package mana
   </StepperItem>
 
   <StepperItem title="Step 4: Start Building Amazing Apps">
-    You're all set! Start using light-hooks to enhance your React applications:
+    You're all set! Start using notehooks to enhance your React applications:
 
     ```tsx
     // Example: Persistent theme switcher
-    import { useLocalStorage } from 'light-hooks';
+    import { useLocalStorage } from 'notehooks';
     
     function ThemeProvider({ children }) {
       const [theme, setTheme] = useLocalStorage('app-theme', 'light');
@@ -101,7 +101,7 @@ Here are some quick examples to get you started with common use cases:
 ### Local Storage Hook
 
 ```tsx
-import { useLocalStorage } from 'light-hooks';
+import { useLocalStorage } from 'notehooks';
 
 function Settings() {
   const [settings, setSettings] = useLocalStorage('user-settings', {
@@ -126,7 +126,7 @@ function Settings() {
 ### Debounced Search
 
 ```tsx
-import { useDebounce } from 'light-hooks';
+import { useDebounce } from 'notehooks';
 import { useState, useEffect } from 'react';
 
 function SearchComponent() {
@@ -152,7 +152,7 @@ function SearchComponent() {
 
 ## Getting Started
 
-Once you've installed light-hooks, you're ready to start building! Here are some next steps:
+Once you've installed notehooks, you're ready to start building! Here are some next steps:
 
 1. **Explore the hooks**: Check out the documentation for each hook to understand their APIs
 2. **Start with common patterns**: Try `useLocalStorage` for persistent state or `useToggle` for boolean flags
@@ -160,7 +160,7 @@ Once you've installed light-hooks, you're ready to start building! Here are some
 
 ### Quick Integration
 
-Here's how to quickly integrate light-hooks into an existing React project:
+Here's how to quickly integrate notehooks into an existing React project:
 
 ```tsx
 // Replace this common pattern:
@@ -171,4 +171,4 @@ const toggle = () => setIsOpen(!isOpen);
 const [isOpen, toggle] = useToggle(false);
 ```
 
-You're all set to start building amazing applications with light-hooks!
+You're all set to start building amazing applications with notehooks!
