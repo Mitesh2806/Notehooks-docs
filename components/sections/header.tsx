@@ -32,7 +32,7 @@ const Header = () => {
 
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="gap-2 hidden sm:flex" asChild>
-              <Link href="https://github.com/yourusername/notehooks" target="_blank">
+              <Link href="https://github.com/Mitesh2806/Notehooks" target="_blank">
                 <Github className="size-4" />
                 GitHub
               </Link>

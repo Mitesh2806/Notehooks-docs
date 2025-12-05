@@ -35,7 +35,7 @@ const CTA = () => {
             </Button>
           </div>
           
-          <Button size="lg" className="px-8">
+          <Button   size="lg" className="px-8">
             Read the Documentation
           </Button>
         </div>

@@ -14,7 +14,7 @@ const Footer = () => {
           </div>
           
           <div className="flex items-center gap-8 font-medium">
-            <Link href="#" className="hover:text-foreground transition-colors">GitHub</Link>
+            <Link href="https://github.com/Mitesh2806/Notehooks" className="hover:text-foreground transition-colors">GitHub</Link>
             <Link href="#" className="hover:text-foreground transition-colors">Twitter</Link>
             <Link href="#" className="hover:text-foreground transition-colors">Discord</Link>
           </div>

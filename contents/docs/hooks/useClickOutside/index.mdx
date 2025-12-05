@@ -1,31 +1,33 @@
 ---
 title: useClickOutside
-description: Detect clicks outside of a component reference.
+description: React hook to detect clicks outside of a specific component, supporting touch events, multiple references, and portal handling.
 ---
 
-# useClickOutside
+The `useClickOutside` hook offers a robust way to detect user interactions outside of a specified element. While commonly used for closing modals and dropdowns, this hook is engineered to handle complex scenarios including multiple exclusion zones, touch devices, and nested interactive elements.
 
-The `useClickOutside` hook detects when a click occurs outside of a specified element. Perfect for closing modals, dropdowns, or any component that should close when clicking outside.
+## Basic Usage
 
-## Usage
+```tsx
+import { useRef, useState } from "react";
+import { useClickOutside } from "light-hooks";
 
-```typescript
-import { useRef } from "react";
-import { useClickOutside } from "notehooks";
-
-const MyComponent = () => {
+const Dropdown = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useClickOutside(ref, () => {
     setIsOpen(false);
   });
 
   return (
-    <div ref={ref}>
+    <div className="relative-container">
+      <button onClick={() => setIsOpen(!isOpen)}>
+        Toggle Menu
+      </button>
+      
       {isOpen && (
-        <div className="dropdown">
-          <p>Click outside to close</p>
+        <div ref={ref} className="dropdown-menu">
+          <p>I will close if you click outside of me!</p>
         </div>
       )}
     </div>
@@ -33,31 +35,87 @@ const MyComponent = () => {
 };
 ```
 
-## API
+## API Reference
 
-### `useClickOutside(ref, callback, events?)`
+### Parameters
 
-| Parameter  | Type                           | Description                                                    |
-| ---------- | ------------------------------ | -------------------------------------------------------------- |
-| `ref`      | `React.RefObject<HTMLElement>` | Reference to the element to monitor.                           |
-| `callback` | `() => void`                   | Function called when clicking outside.                         |
-| `events`   | `string[]`                     | Events to listen for (default: `['mousedown', 'touchstart']`). |
+- **ref**: `React.RefObject<T> | React.RefObject<T>[]`  
+  The element(s) to include. Clicks inside these are ignored.
+
+- **handler**: `(event: Event) => void`  
+  Function triggered when a click occurs outside the ref(s).
+
+- **events**: `string[]` (Optional)  
+  List of events to listen for. Defaults to `['mousedown', 'touchstart']`.
+
+### Return Value
+
+This hook does not return a value. It manages side effects (event listeners) internally.
 
 ## Examples
 
-### Modal with click-outside close
+### Standard Modal
 
-```typescript
-const Modal = ({ isOpen, onClose }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  useClickOutside(ref, onClose);
+A classic use case where clicking the backdrop or anywhere outside the modal content closes the dialog.
 
-  return isOpen ? (
+```tsx
+const Modal = ({ isOpen, onClose, title, children }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+  
+  // Close the modal when clicking outside the content area
+  useClickOutside(modalRef, onClose);
+
+  if (!isOpen) return null;
+
+  return (
     <div className="modal-overlay">
-      <div ref={ref} className="modal">
-        <p>Modal content</p>
+      <div ref={modalRef} className="modal-content">
+        <div className="modal-header">
+          <h3>{title}</h3>
+          <button onClick={onClose}>&times;</button>
+        </div>
+        <div className="modal-body">
+          {children}
+        </div>
       </div>
     </div>
-  ) : null;
+  );
 };
+```
+
+### Search Autocomplete
+
+Closes the suggestion list when the user clicks away, but keeps it open if they click the input or the list itself.
+
+```tsx
+function SearchComponent() {
+  const [query, setQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside(wrapperRef, () => {
+    setShowSuggestions(false);
+  });
+
+  const handleFocus = () => setShowSuggestions(true);
+
+  return (
+    <div ref={wrapperRef} className="search-container">
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onFocus={handleFocus}
+        placeholder="Search..."
+      />
+      {showSuggestions && (
+        <ul className="suggestions-list">
+          <li>Result A</li>
+          <li>Result B</li>
+          <li>Result C</li>
+        </ul>
+      )}
+    </div>
+  );
+}
 ```
