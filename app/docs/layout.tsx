@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { AppSidebar } from "@/components/app-sidebar";
+import Search from "@/components/search";
 import { TableOfContents } from "@/components/table-of-contents";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -19,7 +21,12 @@ export default function DocsLayout({
       <div className="w-full h-16 border-b bg-background sticky top-0 z-50">
         
         <div className="w-full mx-auto h-full flex items-center justify-between px-4">
-          <h1 className="text-xl font-bold">Notehooks</h1>
+          <Link href="/" className="text-xl font-bold">
+            Notehooks
+          </Link>
+          <div className="hidden sm:block sm:mx-6 w-72">
+            <Search />
+          </div>
           
           {/* Mobile Menu Button */}
           <Sheet open={open} onOpenChange={setOpen}>
