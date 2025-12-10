@@ -1,12 +1,19 @@
 "use client";
 import React from "react";
 import Dither from "./Dither";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 
 const ClientDither = () => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   // Only render dither in dark mode
-  if (theme !== "dark") return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+  if (resolvedTheme !== "dark") return null;
 
   // Theme-aware colors for dark mode
   const waveColor = [0.11, 0.11, 0.12] as [number, number, number];
@@ -31,5 +38,6 @@ const ClientDither = () => {
     </div>
   );
 };
+
 
 export default ClientDither;
