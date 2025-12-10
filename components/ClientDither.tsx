@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Dither from "./Dither";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 
 const ClientDither = () => {
@@ -41,3 +41,4 @@ const ClientDither = () => {
 
 
 export default ClientDither;
+
