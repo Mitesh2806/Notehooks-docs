@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Architects_Daughter } from "next/font/google";
+import { Patrick_Hand } from 'next/font/google';
 import { ThemeProvider } from "next-themes";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -9,6 +10,11 @@ const geistSans = Geist({
 });
 
 const architectsDaughter = Architects_Daughter({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-sans", // We map this to the variable used in your CSS
+});
+const patricksHand = Patrick_Hand({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-sans", // We map this to the variable used in your CSS
@@ -31,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${architectsDaughter.variable} font-sans antialiased tracking-wide noise-overlay-paper`}
+        className={`${patricksHand.variable} font-sans antialiased tracking-wide noise-overlay-paper`}
       >
         <ThemeProvider
           attribute="class"

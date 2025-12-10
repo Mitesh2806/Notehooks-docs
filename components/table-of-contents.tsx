@@ -11,19 +11,19 @@ export function TableOfContents() {
   useEffect(() => {
     // Extract headings after a short delay to ensure DOM is ready
     const extractHeadings = () => {
-      // Select all headings inside the main article content
-      // Adjust the selector if your content wrapper has a different class/ID
-      const elements = document.querySelectorAll("main h2, main h3, main h4");
+      // Select all headings inside article or main content
+      const elements = document.querySelectorAll("article h2, article h3, article h4, main h2, main h3, main h4");
       
       const headingData = Array.from(elements).map((elem) => ({
         id: elem.id,
         text: elem.textContent || "",
         level: parseInt(elem.tagName.charAt(1)),
       }));
+      
       setHeadings(headingData);
       
-      // Initial active state
-      if (headingData.length > 0 && !activeId) {
+      // Initial active state - set first heading as active
+      if (headingData.length > 0) {
         setActiveId(headingData[0].id);
       }
     };
@@ -36,16 +36,27 @@ export function TableOfContents() {
     if (headings.length === 0) return;
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      // Find the first intersecting entry
-      const visibleEntry = entries.find((entry) => entry.isIntersecting);
-      if (visibleEntry) {
-        setActiveId(visibleEntry.target.id);
+      // Find the heading closest to the top of the viewport
+      let closestHeading = null;
+      let closestDistance = Infinity;
+
+      entries.forEach((entry) => {
+        const distance = Math.abs(entry.boundingClientRect.top);
+        if (entry.isIntersecting && distance < closestDistance) {
+          closestDistance = distance;
+          closestHeading = entry.target.id;
+        }
+      });
+
+      // If a heading is in view, update active
+      if (closestHeading) {
+        setActiveId(closestHeading);
       }
     };
 
     const observer = new IntersectionObserver(observerCallback, {
-      rootMargin: "-100px 0px -40% 0px", // Trigger when heading is near the top
-      threshold: 1.0,
+      rootMargin: "-80px 0px -66% 0px", // Adjusted for better tracking
+      threshold: 0,
     });
 
     headings.forEach((heading) => {

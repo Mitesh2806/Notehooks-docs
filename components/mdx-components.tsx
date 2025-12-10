@@ -116,7 +116,58 @@ export function Code({ className, ...props }: ComponentPropsWithoutRef<"code">) 
   );
 }
 
-// 3. STEPPER COMPONENTS (imported from stepper.tsx)
+// 3. HEADING COMPONENTS
+let headingCounter = 0;
+
+function generateId(text: string | React.ReactNode): string {
+  let textContent = "";
+  if (typeof text === "string") {
+    textContent = text;
+  } else if (React.isValidElement(text)) {
+    textContent = extractTextFromChildren(text);
+  }
+
+  if (!textContent.trim()) {
+    headingCounter++;
+    return `heading-${headingCounter}`;
+  }
+
+  return textContent
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
+export function H2({ className, children, ...props }: ComponentPropsWithoutRef<"h2">) {
+  const id = generateId(children);
+  return (
+    <h2 id={id} className={cn("text-4xl font-bold my-8 scroll-m-20", className)} {...props}>
+      {children}
+    </h2>
+  );
+}
+
+export function H3({ className, children, ...props }: ComponentPropsWithoutRef<"h3">) {
+  const id = generateId(children);
+  return (
+    <h3 id={id} className={cn("text-3xl font-bold my-6 scroll-m-20", className)} {...props}>
+      {children}
+    </h3>
+  );
+}
+
+export function H4({ className, children, ...props }: ComponentPropsWithoutRef<"h4">) {
+  const id = generateId(children);
+  return (
+    <h4 id={id} className={cn("text-2xl font-bold my-6 scroll-m-20", className)} {...props}>
+      {children}
+    </h4>
+  );
+}
+
+// 4. STEPPER COMPONENTS (imported from stepper.tsx)
 
 // Helper to extract text from React children
 function extractTextFromChildren(children: any): string {
@@ -139,6 +190,9 @@ export const mdxComponents = {
   td: TD,
   pre: Pre,
   code: Code,
+  h2: H2,
+  h3: H3,
+  h4: H4,
   Stepper,
   StepperItem,
 };

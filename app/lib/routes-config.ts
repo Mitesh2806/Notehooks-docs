@@ -24,6 +24,7 @@ export const ROUTES: EachRoute[] = [
       { title: "useAsync", href: "/useAsync" },
       { title: "useClickOutside", href: "/useClickOutside" },
       { title: "useClipboard", href: "/useClipboard" },
+      { title: "useThrottle", href: "/useThrottle" },
     ],
   },
 ];

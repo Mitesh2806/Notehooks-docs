@@ -20,6 +20,7 @@ import Image from "@/components/image";
 import Link from "@/components/link";
 import Outlet from "@/components/outlet";
 import Files from "@/components/files";
+import { H2, H3, H4 } from "@/components/mdx-components";
 import {
   Table,
   TableBody,
@@ -49,6 +50,9 @@ const components = {
   tr: TableRow,
   tbody: TableBody,
   t: TableCell,
+  h2: H2,
+  h3: H3,
+  h4: H4,
 };
 
 // can be used for other pages like blogs, Guides etc

@@ -41,7 +41,7 @@ export default async function DocsPage(props: PageProps) {
       <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 mt-0">
         {res.frontmatter.description as string}
       </p>
-      <div className="prose prose-slate dark:prose-invert max-w-none prose-h2:mt-8 prose-h3:mt-6 prose-h4:mt-6">
+      <div className="prose prose-slate dark:prose-invert max-w-none">
         {res.content}
       </div>
 

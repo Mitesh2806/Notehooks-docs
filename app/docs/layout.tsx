@@ -35,7 +35,7 @@ export default function DocsLayout({
                 <Menu className="w-6 h-6" />
               </button>
             </SheetTrigger>
-            <SheetContent side="left" className="p-0 w-64">
+            <SheetContent side="left" className="p-0 w-64 pt-16">
               <AppSidebar onLinkClick={() => setOpen(false)} />
             </SheetContent>
           </Sheet>
