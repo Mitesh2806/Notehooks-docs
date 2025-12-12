@@ -34,14 +34,14 @@ export default async function DocsPage(props: PageProps) {
   const { next } = getPreviousNext(pathName);
 
   return (
-    <article className="prose prose-slate dark:prose-invert max-w-none">
+    <article className="prose prose-xl text-lg prose-slate dark:prose-invert max-w-none">
       <h1 className="text-4xl font-bold mb-4 mt-0">
         {res.frontmatter.title as string}
       </h1>
-      <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 mt-0">
+      <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 mt-0">
         {res.frontmatter.description as string}
       </p>
-      <div className="prose prose-slate dark:prose-invert max-w-none">
+      <div className="prose prose-xl text-lg prose-slate dark:prose-invert max-w-none">
         {res.content}
       </div>
 
@@ -50,7 +50,7 @@ export default async function DocsPage(props: PageProps) {
         <div className="mt-8 flex justify-end">
           <a
             href={`/docs${next.href}`}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-md font-medium text-primary-foreground hover:opacity-90"
           >
             Next: {next.title}
           </a>

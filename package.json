@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.12",
@@ -49,7 +49,7 @@
     "@types/three": "^0.181.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.4",
-    "husky": "^9.1.7",
+    "husky": "^8.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

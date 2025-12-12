@@ -1,0 +1,600 @@
+---
+title: useTimer
+description: A flexible React hook for creating Timer timers with support for date-based or duration-based Timers, formatted time display, and full control capabilities.
+---
+
+The `useTimer` hook provides a comprehensive solution for Timer timers in React applications. It supports both duration-based Timers (e.g., "60 seconds from now") and date-based Timers (e.g., "until New Year's Eve"), with automatic formatting and complete control over timer state.
+
+## Basic Usage
+
+### Simple Duration Timer
+
+```tsx
+import { useTimer } from "notehooks";
+
+function Timer() {
+  const { timeLeft, isActive, start, pause, reset } = useTimer(60);
+
+  return (
+    <div>
+      <h2>Time Remaining: {timeLeft} seconds</h2>
+      <button onClick={start} disabled={isActive}>
+        Start
+      </button>
+      <button onClick={pause} disabled={!isActive}>
+        Pause
+      </button>
+      <button onClick={reset}>Reset</button>
+    </div>
+  );
+}
+```
+
+### Date-Based Timer
+
+```tsx
+function NewYearTimer() {
+  const targetDate = new Date("2024-01-01T00:00:00");
+  const { formattedTime, isCompleted } = useTimer(targetDate);
+
+  if (isCompleted) {
+    return <h1>🎉 Happy New Year!</h1>;
+  }
+
+  return (
+    <div>
+      <h2>New Year Timer</h2>
+      <p>
+        {formattedTime.days}d {formattedTime.hours}h {formattedTime.minutes}m{" "}
+        {formattedTime.seconds}s
+      </p>
+    </div>
+  );
+}
+```
+
+## API Reference
+
+### Parameters
+
+The hook accepts three different parameter types:
+
+| Type                  | Description                       | Example                                                  |
+| --------------------- | --------------------------------- | -------------------------------------------------------- |
+| `number`              | Duration in seconds for Timer | `useTimer(60)`                                       |
+| `Date`                | Target date to Timer to       | `useTimer(new Date('2024-12-31'))`                   |
+| `UseTimerOptions` | Full configuration object         | `useTimer({ initialSeconds: 60, autoStart: false })` |
+
+### UseTimerOptions
+
+| Option           | Type         | Default | Description                              |
+| ---------------- | ------------ | ------- | ---------------------------------------- |
+| `targetDate`     | `Date`       | -       | Target date to Timer to              |
+| `initialSeconds` | `number`     | `0`     | Initial Timer duration in seconds    |
+| `onComplete`     | `() => void` | -       | Callback when Timer reaches zero     |
+| `autoStart`      | `boolean`    | `true`  | Whether to start Timer automatically |
+| `interval`       | `number`     | `1000`  | Update interval in milliseconds          |
+
+### Return Value
+
+Returns a `TimerReturn` object with:
+
+| Property        | Type         | Description                                         |
+| --------------- | ------------ | --------------------------------------------------- |
+| `timeLeft`      | `number`     | Current time remaining in seconds                   |
+| `isActive`      | `boolean`    | Whether Timer is currently running              |
+| `isCompleted`   | `boolean`    | Whether Timer has reached zero                  |
+| `start`         | `() => void` | Start or resume the Timer                       |
+| `pause`         | `() => void` | Pause the Timer                                 |
+| `reset`         | `() => void` | Reset to initial state                              |
+| `formattedTime` | `object`     | Time broken down into days, hours, minutes, seconds |
+
+#### formattedTime Object
+
+| Property  | Type     | Description                                 |
+| --------- | -------- | ------------------------------------------- |
+| `days`    | `number` | Number of complete days remaining           |
+| `hours`   | `number` | Number of complete hours remaining (0-23)   |
+| `minutes` | `number` | Number of complete minutes remaining (0-59) |
+| `seconds` | `number` | Number of complete seconds remaining (0-59) |
+
+## Examples
+
+### OTP Timer
+
+```tsx
+function OTPInput() {
+  const { timeLeft, isCompleted, reset, start } = useTimer({
+    initialSeconds: 30,
+    autoStart: true,
+    onComplete: () => alert("OTP expired!"),
+  });
+
+  const [otp, setOtp] = useState("");
+
+  return (
+    <div>
+      <input
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+        placeholder="Enter OTP"
+        disabled={isCompleted}
+      />
+      <p>{!isCompleted ? `Expires in ${timeLeft}s` : "OTP expired"}</p>
+      {isCompleted && (
+        <button
+          onClick={() => {
+            reset();
+            start();
+          }}
+        >
+          Resend OTP
+        </button>
+      )}
+    </div>
+  );
+}
+```
+
+### Game Timer with Formatted Display
+
+```tsx
+function GameTimer() {
+  const { formattedTime, isActive, start, pause, reset, isCompleted } =
+    useTimer({
+      initialSeconds: 300, // 5 minutes
+      autoStart: false,
+      onComplete: () => endGame(),
+    });
+
+  return (
+    <div className="game-timer">
+      <h2>
+        {String(formattedTime.minutes).padStart(2, "0")}:
+        {String(formattedTime.seconds).padStart(2, "0")}
+      </h2>
+      <div>
+        <button onClick={isActive ? pause : start} disabled={isCompleted}>
+          {isActive ? "⏸️ Pause" : "▶️ Start"}
+        </button>
+        <button onClick={reset}>🔄 Reset</button>
+      </div>
+      {isCompleted && <p>Game Over!</p>}
+    </div>
+  );
+}
+```
+
+### Event Timer with Full Date Display
+
+```tsx
+function EventTimer() {
+  const eventDate = new Date("2024-12-25T00:00:00"); // Christmas
+  const { formattedTime, isCompleted } = useTimer(eventDate);
+
+  if (isCompleted) {
+    return (
+      <div className="event-banner">
+        <h3>🎄 Merry Christmas!</h3>
+        <p>The event has arrived!</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="event-banner">
+      <h3>🎄 Christmas Timer</h3>
+      <div className="Timer-display">
+        <div className="time-unit">
+          <span className="number">{formattedTime.days}</span>
+          <span className="label">Days</span>
+        </div>
+        <div className="time-unit">
+          <span className="number">{formattedTime.hours}</span>
+          <span className="label">Hours</span>
+        </div>
+        <div className="time-unit">
+          <span className="number">{formattedTime.minutes}</span>
+          <span className="label">Minutes</span>
+        </div>
+        <div className="time-unit">
+          <span className="number">{formattedTime.seconds}</span>
+          <span className="label">Seconds</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+### High-Precision Timer
+
+```tsx
+function PrecisionTimer() {
+  // Update every 100ms for smooth animation
+  const { timeLeft, formattedTime, isActive, start, pause } = useTimer({
+    initialSeconds: 10,
+    interval: 100,
+    autoStart: false,
+  });
+
+  // Display with decimal precision
+  const displayTime = (
+    timeLeft +
+    ((formattedTime.seconds * 1000) % 1000) / 1000
+  ).toFixed(1);
+
+  return (
+    <div>
+      <h2 style={{ fontSize: "2rem", fontFamily: "monospace" }}>
+        {displayTime}s
+      </h2>
+      <button onClick={isActive ? pause : start}>
+        {isActive ? "Pause" : "Start"}
+      </button>
+    </div>
+  );
+}
+```
+
+### Auto-Start with Manual Control
+
+```tsx
+function FlexibleTimer() {
+  const { timeLeft, isActive, isCompleted, start, pause, reset } = useTimer(
+    {
+      initialSeconds: 120,
+      autoStart: true, // Starts immediately
+      onComplete: () => {
+        console.log("Timer completed!");
+        // Auto-restart for continuous operation
+        setTimeout(reset, 1000);
+      },
+    }
+  );
+
+  return (
+    <div>
+      <h3>Auto-Restart Timer</h3>
+      <p>
+        Time: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
+      </p>
+      <p>
+        Status: {isCompleted ? "Completed" : isActive ? "Running" : "Paused"}
+      </p>
+
+      <div>
+        <button onClick={start} disabled={isActive}>
+          Start
+        </button>
+        <button onClick={pause} disabled={!isActive}>
+          Pause
+        </button>
+        <button onClick={reset}>Reset</button>
+      </div>
+    </div>
+  );
+}
+```
+
+## Best Practices
+
+### 1. Always Handle Completion
+
+```tsx
+// ✅ Good: Handle when timer reaches zero
+const { timeLeft, isCompleted } = useTimer({
+  initialSeconds: 60,
+  onComplete: () => {
+    // Handle completion
+    setGameOver(true);
+    showNotification("Time is up!");
+  },
+});
+
+// Check completion state in render
+if (isCompleted) {
+  return <div>Timer completed!</div>;
+}
+
+// ❌ Avoid: Not handling completion state
+const { timeLeft } = useTimer(60);
+```
+
+### 2. Provide Clear User Feedback
+
+```tsx
+// ✅ Good: Show timer state to user
+const { isActive, isCompleted, start, pause } = useTimer(60);
+
+<button onClick={isActive ? pause : start} disabled={isCompleted}>
+  {isCompleted
+    ? 'Completed'
+    : isActive
+    ? 'Pause Timer'
+    : 'Start Timer'
+  }
+</button>
+
+// ❌ Avoid: No indication of timer state
+<button onClick={start}>Start</button>
+```
+
+### 3. Use Formatted Time for Better Display
+
+```tsx
+// ✅ Good: Use built-in formatted time
+const { formattedTime } = useTimer(3665); // 1 hour, 1 minute, 5 seconds
+<div>
+  {formattedTime.hours}h {formattedTime.minutes}m {formattedTime.seconds}s
+</div>;
+
+// ✅ Also good: Custom formatting function
+const formatTime = (seconds: number) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+};
+
+// ❌ Avoid: Raw seconds display for long durations
+<div>{timeLeft} seconds</div>; // Bad for 3665 seconds
+```
+
+### 4. Choose Appropriate Parameter Style
+
+```tsx
+// ✅ Good: Simple cases use direct parameters
+const simpleTimer = useTimer(60); // Just 60 seconds
+const dateTimer = useTimer(new Date("2024-12-31")); // Until New Year
+
+// ✅ Good: Complex cases use options object
+const complexTimer = useTimer({
+  initialSeconds: 300,
+  autoStart: false,
+  onComplete: handleCompletion,
+  interval: 500, // Faster updates
+});
+
+// ❌ Avoid: Using options object for simple cases
+const overComplex = useTimer({ initialSeconds: 60 }); // Just use useTimer(60)
+```
+
+### 5. Handle Date-Based Timers Properly
+
+```tsx
+// ✅ Good: Account for timezone and date validation
+const eventDate = new Date("2024-12-31T23:59:59");
+const { timeLeft, isCompleted } = useTimer(eventDate);
+
+// Validate the date
+if (eventDate.getTime() <= Date.now()) {
+  return <div>Event has already passed!</div>;
+}
+
+// ❌ Avoid: Not validating future dates
+const badDate = new Date("2020-01-01"); // Past date
+const timer = useTimer(badDate); // Will be completed immediately
+```
+
+## TypeScript
+
+The hook is fully typed with comprehensive interfaces:
+
+```tsx
+import {
+  useTimer,
+  UseTimerOptions,
+  TimerReturn,
+} from "notehooks";
+
+// Type inference works automatically
+const Timer = useTimer(60);
+// Timer: TimerReturn
+
+// Explicit typing (optional)
+const explicitTimer: TimerReturn = useTimer(60);
+
+// With configuration object
+const configuredTimer = useTimer({
+  initialSeconds: 300,
+  autoStart: false,
+  onComplete: () => console.log("Done!"),
+  interval: 1000,
+});
+
+// Date-based Timer
+const dateTimer = useTimer(new Date("2024-12-31"));
+
+// Custom type definitions
+interface CustomTimerProps {
+  duration: number;
+  onFinish: () => void;
+}
+
+function CustomTimer({ duration, onFinish }: CustomTimerProps) {
+  const { timeLeft, formattedTime, isCompleted } = useTimer({
+    initialSeconds: duration,
+    onComplete: onFinish,
+    autoStart: true,
+  });
+
+  return (
+    <div>
+      Time: {formattedTime.minutes}:{formattedTime.seconds}
+    </div>
+  );
+}
+```
+
+### Interface Definitions
+
+```tsx
+interface UseTimerOptions {
+  targetDate?: Date;
+  initialSeconds?: number;
+  onComplete?: () => void;
+  autoStart?: boolean;
+  interval?: number;
+}
+
+interface TimerReturn {
+  timeLeft: number;
+  isActive: boolean;
+  isCompleted: boolean;
+  start: () => void;
+  pause: () => void;
+  reset: () => void;
+  formattedTime: {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  };
+}
+```
+
+## Common Issues
+
+### Timer Not Starting
+
+If your timer isn't starting automatically:
+
+```tsx
+// ✅ Solution 1: Check autoStart setting
+const { start } = useTimer({
+  initialSeconds: 60,
+  autoStart: true, // Make sure this is true
+});
+
+// ✅ Solution 2: Call start manually
+const { start } = useTimer({
+  initialSeconds: 60,
+  autoStart: false,
+});
+// Call start() when needed
+useEffect(() => {
+  start();
+}, [start]);
+```
+
+### Date-Based Timer Issues
+
+```tsx
+// ❌ Problem: Date in the past
+const pastDate = new Date("2020-01-01");
+const { isCompleted } = useTimer(pastDate); // Always completed
+
+// ✅ Solution: Validate date is in future
+const futureDate = new Date("2024-12-31");
+if (futureDate.getTime() <= Date.now()) {
+  console.warn("Target date is in the past");
+}
+const Timer = useTimer(futureDate);
+```
+
+### Performance with Fast Updates
+
+```tsx
+// ⚠️ Be cautious with very fast intervals
+const fastTimer = useTimer({
+  initialSeconds: 10,
+  interval: 16, // 60fps - may impact performance
+});
+
+// ✅ Consider if you really need such precision
+const reasonableTimer = useTimer({
+  initialSeconds: 10,
+  interval: 100, // 10fps - usually sufficient
+});
+```
+
+### Memory Leaks Prevention
+
+The hook automatically cleans up intervals when the component unmounts, but be aware of:
+
+```tsx
+// ✅ Good: onComplete callback doesn't cause memory leaks
+const { timeLeft } = useTimer({
+  initialSeconds: 60,
+  onComplete: useCallback(() => {
+    // Stable callback reference
+    handleCompletion();
+  }, []), // Empty dependency array if handleCompletion is stable
+});
+
+// ⚠️ Potential issue: Creating new callback on every render
+const { timeLeft } = useTimer({
+  initialSeconds: 60,
+  onComplete: () => {
+    // New function created every render
+    handleCompletion();
+  },
+});
+```
+
+### State Synchronization
+
+```tsx
+// ✅ Good: Reset when external state changes
+const [targetTime, setTargetTime] = useState(60);
+const { reset } = useTimer(targetTime);
+
+useEffect(() => {
+  reset(); // Reset Timer when target time changes
+}, [targetTime, reset]);
+```
+
+## Advanced Usage
+
+### Conditional Timer
+
+```tsx
+function ConditionalTimer({ shouldStart }: { shouldStart: boolean }) {
+  const { timeLeft, start, pause, isActive } = useTimer({
+    initialSeconds: 30,
+    autoStart: false,
+  });
+
+  useEffect(() => {
+    if (shouldStart && !isActive) {
+      start();
+    } else if (!shouldStart && isActive) {
+      pause();
+    }
+  }, [shouldStart, isActive, start, pause]);
+
+  return <div>Time: {timeLeft}s</div>;
+}
+```
+
+### Multiple Timer Synchronization
+
+```tsx
+function MultipleTimers() {
+  const timer1 = useTimer({ initialSeconds: 60, autoStart: false });
+  const timer2 = useTimer({ initialSeconds: 90, autoStart: false });
+  const timer3 = useTimer({ initialSeconds: 120, autoStart: false });
+
+  const startAll = () => {
+    timer1.start();
+    timer2.start();
+    timer3.start();
+  };
+
+  const resetAll = () => {
+    timer1.reset();
+    timer2.reset();
+    timer3.reset();
+  };
+
+  return (
+    <div>
+      <div>Timer 1: {timer1.timeLeft}s</div>
+      <div>Timer 2: {timer2.timeLeft}s</div>
+      <div>Timer 3: {timer3.timeLeft}s</div>
+      <button onClick={startAll}>Start All</button>
+      <button onClick={resetAll}>Reset All</button>
+    </div>
+  );
+}
+```

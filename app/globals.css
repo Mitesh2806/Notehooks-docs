@@ -242,6 +242,17 @@
     @apply text-slate-50 text-shadow-none font-mono text-left whitespace-pre break-normal leading-relaxed;
   }
 
+  /* Make block code slightly smaller than the body text for an IDE-like look */
+  pre[class*="language-"] {
+    @apply text-sm md:text-base rounded-md border border-zinc-800 bg-[#0b1220] p-3 md:p-4;
+  }
+
+  /* Inline code inside prose should be treated as small boxed labels */
+  .prose :not(pre) > code,
+  :not(pre) > code {
+    @apply text-xs md:text-sm bg-muted/20 px-1.5 py-0.5 rounded border border-border;
+  }
+
   .token.comment,
   .token.prolog,
   .token.doctype,
@@ -300,6 +311,46 @@
   .token.variable {
     @apply text-yellow-200;
   }
+}
+
+/* Make code inside tables smaller for readability and layout */
+.prose table code,
+table code,
+.prose table pre,
+table pre {
+  @apply text-sm;
+}
+
+/* Ensure inline code in table cells does not overflow */
+.prose table td code,
+table td code {
+  @apply text-xs md:text-sm px-1 py-0.5 rounded bg-muted/20;
+}
+
+/* Note component IDE-like pre/code styling */
+.note pre {
+  @apply bg-[#0b1220] text-white rounded-md p-4 overflow-auto font-mono text-base md:text-lg leading-relaxed border border-zinc-800 relative;
+  padding-top: 2.25rem; /* room for the fake title bar */
+}
+.note pre::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  width: 74px;
+  height: 14px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #ff5f56 0 30%, #ffbd2e 30% 60%, #27c93f 60% 100%);
+  opacity: 1;
+}
+.note code {
+  @apply bg-[#0f1724] text-white px-2 py-0.5 rounded text-sm font-mono;
+}
+.note p, .note li {
+  @apply text-base;
+}
+.note mark {
+  @apply bg-yellow-300 text-black px-1 rounded-sm;
 }
 .noise-overlay-paper::before {
   content: "";

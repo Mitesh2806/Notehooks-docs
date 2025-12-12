@@ -50,8 +50,8 @@ export default function DocsLayout({
           </div>
 
           {/* Main Content Area */}
-          <main className="min-w-0 max-w-4xl mx-auto w-full px-6 md:px-8 py-8">
-            <article className="prose prose-slate dark:prose-invert max-w-none">
+          <main className="min-w-0 max-w-4xl mx-auto w-full px-6 md:px-8 py-8 text-base md:text-lg">
+            <article className="prose prose-xl text-lg prose-slate dark:prose-invert max-w-none">
               {children}
             </article>
           </main>

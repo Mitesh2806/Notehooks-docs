@@ -9,8 +9,8 @@ import { Stepper, StepperItem } from "@/components/stepper";
 // 1. TABLE COMPONENTS
 export function Table({ className, ...props }: ComponentPropsWithoutRef<"table">) {
   return (
-    <div className="my-6 w-full overflow-y-auto rounded-md border border-border">
-      <table className={cn("w-full caption-bottom text-sm", className)} {...props} />
+    <div className="my-6 w-full overflow-y-auto rounded-2xl border border-dashed border-zinc-700 bg-white dark:bg-zinc-900 shadow">
+      <table className={cn("w-full caption-bottom text-base md:text-lg text-center", className)} {...props} />
     </div>
   );
 }
@@ -43,7 +43,7 @@ export function TH({ className, ...props }: ComponentPropsWithoutRef<"th">) {
   return (
     <th
       className={cn(
-        "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+        "h-12 px-4 text-center align-middle font-semibold text-muted-foreground [&:has([role=checkbox])]:pr-0",
         className
       )}
       {...props}
@@ -54,7 +54,7 @@ export function TH({ className, ...props }: ComponentPropsWithoutRef<"th">) {
 export function TD({ className, ...props }: ComponentPropsWithoutRef<"td">) {
   return (
     <td
-      className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+      className={cn("px-6 py-4 align-middle text-zinc-700 dark:text-zinc-300 [&:has([role=checkbox])]:pr-0", className)}
       {...props}
     />
   );
@@ -92,7 +92,7 @@ export function Pre({ children, className, ...props }: ComponentPropsWithoutRef<
       <div className="relative">
         <pre
           className={cn(
-            "overflow-x-auto py-4 px-4 font-mono text-sm leading-relaxed",
+            "overflow-x-auto py-4 px-4 font-mono text-sm md:text-base leading-relaxed",
             className
           )}
           {...props}
@@ -108,7 +108,7 @@ export function Code({ className, ...props }: ComponentPropsWithoutRef<"code">) 
   return (
     <code
       className={cn(
-        "relative rounded-md border border-border bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium text-foreground",
+        "relative rounded-md border border-border bg-muted/50 px-[0.3rem] py-[0.2rem] font-mono text-xs md:text-sm font-medium text-foreground",
         className
       )}
       {...props}
